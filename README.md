@@ -137,7 +137,21 @@ docker push tag_name
 ```
 docker search nginx --limit 5 --filter "ïs-official=true"
 ```
+#### Network
+```
+docker network ls
+docker inspect network_name
+docker network create --driver bridge network_name #bridge is the default
+docker container run -dt image_name --network network_name --name some_name
+docker container run -dt image_name --name some_name -P (random ports)
 
+docker container run -dt image_name --link some_name02:container --name some_name (lecy approach)
+```
+#### Container orchestration
+```
+docker service ls
+docker service ps service_name
+```
 
 
 
