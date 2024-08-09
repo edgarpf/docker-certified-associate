@@ -152,6 +152,87 @@ docker container run -dt image_name --link some_name02:container --name some_nam
 docker service ls
 docker service ps service_name
 ```
+### Docker Swarm
+* To deploy your application to a swarm, you submit a service definition to a manager node.
+* The manager node dispatches units of work called tasks to worker nodes.
+```
+docker swarm init --advertise-addr <MANAGER-IP>
+docker swarm join-token worker
+docker node ls
+docker service create --name webserver --replicas 1 nginx
+docker service ls
+docker service rm service_name
+docker service ps service_name
+docker service scale service01=3 service02=3 # or docker service update --replicas 5 mywebsever
+docker node update --availability drain swarm03
+docker node update --availability active swarm03
+docker service inspect demotroubleshoot --pretty
+docker node inspect swarm01 -pretty
+docker service create --name mywebserver --replicas 1 --publish 8080:80 nginx
+```
+There are two types of services deployments, replicated and global. A global service is a service that runs one task on every node.
+```
+docker service create --name webserver -dt nginx --mode global
+```
+### Docker Compose
+```
+docker-compose version
+docker-compose up -d
+docker-compose down
+```
+```yaml
+version: '3.3'
+ 
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+ 
+   wordpress:
+     depends_on:
+       - db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       WORDPRESS_DB_NAME: wordpress
+volumes:
+    db_data: {}
+```
+### Docker Stack
+The docker stack can be used to manage a multi-service application.
+```
+docker stack deploy --compose-file docker-compose.yml mydemo
+docker stack ls
+docker stack rm mydemo
+```
+### Autolock
+```
+docker swarm update --autolock=true
+systemctl restart docker
+docker swarm unlock
+docker swarm unlock-key
+docker swarm unlock-key --rotate
+```
+### Volumes
+```
+docker service create --name myservice --mount type=volume,source=myvolume,target=/mypath nginx
+docker volume ls
+```
+
+
+
 
 
 
