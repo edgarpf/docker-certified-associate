@@ -141,6 +141,7 @@ docker search nginx --limit 5 --filter "ïs-official=true"
 ```
 docker network ls
 docker inspect network_name
+docker network create -d overlay -o encrypted mynetwork
 docker network create --driver bridge network_name #bridge is the default
 docker container run -dt image_name --network network_name --name some_name
 docker container run -dt image_name --name some_name -P (random ports)
@@ -253,6 +254,10 @@ A given volume can be mounted into multiple containers simultaneously.
 docker logs container_name
 ```
 
+## Tips
+* DOCKER CONTENT TRUST means that only trust image which are signed by a trust signer.
+* DTR does backup images within the repository.
+* 
 
 
 
