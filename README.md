@@ -230,6 +230,30 @@ docker swarm unlock-key --rotate
 docker service create --name myservice --mount type=volume,source=myvolume,target=/mypath nginx
 docker volume ls
 ```
+### Security
+```
+docker swarm ca --rotate
+docker container run -dt --name constraint01 --cpus=1.5 busybox sh
+docker container run -dt --name constraint02 --cpuset-cpus=0,1 busybox sh
+```
+### Volumes
+```
+docker volume ls
+docker volume create myvolume
+docker container run -dt --name busybox -v myvolume:/etc busybox sh
+docker volume rm myvolume
+#bind olumes
+docker container run -dt --name mynginx --mount type=bind,source=/root/index,target=/usr/share/nginx/html nginx
+docker container run -dt --name mynginx -v /root/index:/usr/share/nginx/html nginx
+docker container run -td --rm --name container busybox ping -c10 www.google.com #remove container and volume after completion
+```
+A given volume can be mounted into multiple containers simultaneously.
+#### Logs
+```
+docker logs container_name
+```
+
+
 
 
 
