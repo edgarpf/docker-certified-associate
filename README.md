@@ -257,12 +257,20 @@ docker logs container_name
 ## Tips
 * DOCKER CONTENT TRUST means that only trust image which are signed by a trust signer.
 * DTR does backup images within the repository.
+* user namespace is not enabled by default.
+* Use ```docker system df``` to check disk occuppied for containers.
+* Use ```docker swarm leave``` to remove a server from the group.
+* To make sure that an image tag is not overwritten in Docker DTR use immutable option in DTR.
+* To update a secret create a new docker secret with a new password. Trigger a rolling update of the service, by using "-- secret-rm" & "--secret-add" to remove the old secret and add the updated secret.
+* A running container can be interpreted as a process on a Linux host.
+* Universal Control Planne (UCP) is tool to use to create users and teams.
+* ADD can copy files from local source to destination. It can also uncompress files. It can also copy files from remote sources.
+* ```docker service update --replicas=3 web``` is the same as ```docker service scale web=3```.
+* DOCKER_CONTENT_TRUST=1 is used to instruct the client to perform signing of the image.
+* Garbage collection removes unreferenced image layers from DTR's backend storage.
+* ```docker swarm init``` to setup a swarm.
+* ```docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]```to tag an image.
+* By default, ports are published using ingress mode. This means that the swarm routing mesh makes the service accessible at the published port on every node regardless if there is a task for the service running on the node.
+* ```-memory 4GB --memory-reservation 2GB``` for a service would allow a container to consume more than 2 GB of memory only when there is no memory contention but would also prevent a container from consuming more than 4GB of memory.
 * 
-
-
-
-
-
-
-
 
