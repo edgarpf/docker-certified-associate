@@ -272,5 +272,37 @@ docker logs container_name
 * ```docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]```to tag an image.
 * By default, ports are published using ingress mode. This means that the swarm routing mesh makes the service accessible at the published port on every node regardless if there is a task for the service running on the node.
 * ```-memory 4GB --memory-reservation 2GB``` for a service would allow a container to consume more than 2 GB of memory only when there is no memory contention but would also prevent a container from consuming more than 4GB of memory.
-* 
-
+* To ensure a service runs on worker nodes rather than managers, use a node.role constraint in the service definition. For example: ```docker service create --name nginx-workers-only --constraint node.role==worker```.
+* A number of tasks can be specified for a replicated service. There is no pre-specified number of tasks for global service.
+* To remove a node from the swarm use the following on the node itself: ```docker swarm leave [OPTIONS]```.
+* Sometimes, such as planned maintenance times, you need to set a node to DRAIN availability. DRAIN availability prevents a node from receiving new tasks from the swarm manager.
+* By default, docker inspect will render results in a JSON array.
+* By default, a container has no resource constraints and can use as much of a given resource as the host`s kernel scheduler allows.
+* Swarm mode has two types of services: replicated and global. For replicated services, you specify the number of replica tasks for the swarm manager to schedule onto available nodes. For global services, the scheduler places one task on each available node that meets the service’s placement constraints and resource requirements.
+* You can change almost everything about an existing service using the ```docker service update``` command. Use the --network-add or --network-rm flags to add or remove a network for a service.
+* To update a service to add or update a mount on a service use: ```docker service update --mount-add SERVICE```.
+* The scale command enables you to scale one or more replicated services either up or down to the desired number of replicas. This command cannot be applied to services which are global services.
+* A task is the atomic unit of scheduling within a swarm. When you declare a desired service state by creating or updating a service via HTTP API endpoints, the orchestrator realizes the desired state by scheduling tasks.
+* A stack is used to describe a collection of swarm services that are related, most probably because they are part of the same application.
+* Us ```docker service update --constraint-add``` to add or update a placement constraint.
+* To deploy your application to a swarm, you submit a service definition to a manager node. The manager node dispatches units of work called tasks to worker nodes.
+* You can also specify the protocol to use, tcp, udp, or sctp. Defaults to tcp. To bind a port for both protocols, specify the -p or --publish flag twice. Ex: ```docker service create --name my_web --replicas 3 --publish 8080:80/udp nginx```.
+* If the swarm loses the quorum of managers, the swarm cannot perform administrative tasks such as scaling or updating services and joining or removing nodes from the swarm.
+* While placement constraints limit the nodes a service can run on, placement preferences try to place tasks on appropriate nodes in an algorithmic way (currently, only spread evenly).
+* docker API > orchestrator > allocator > dispatcher > scheduler is the correct order of steps taken when creating a service process in swarm mode.
+* Minikube is not a supported orchestrator in Docker EE.
+* To add or update a node label (key=value) use: ```docker node update --label-add NODE```.
+* Run ```docker node inspect self``` on the same node to confirm it has left the cluster.
+* To configure the restart policy for a container, use the --restart flag when using the docker run command.
+* Use --publish-add to publish containers port(s) on an existing service in the swarm.
+* A task is a one-directional mechanism.
+* Docker only allows a single network to be specified with the docker run command.
+* Adding manager nodes to a swarm makes the swarm more fault-tolerant. However, additional manager nodes reduce write performance because more nodes must acknowledge proposals to update the swarm state. This means more network round-trip traffic.
+* Setting a node to DRAIN does not remove standalone containers from that node, such as those created with docker run, docker-compose up, or the Docker Engine API.
+* Restart policies only apply to containers. Restart policies for swarm services are configured differently using other flags related to service restart.
+* Tasks are initialized in the NEW state.
+* An odd number of managers is recommended.
+* When using 'docker service create' and 'docker service update' you can set a --update-delayflag to delay between updates.
+* To rollback a specified service to its previous version from the swarm you can execute one of the following commands: ```docker service rollback [OPTIONS] SERVICE``` or ```docker service update --rollback SERVICE```.
+* Assuming that the my_web service exists, use the following command to remove the published port 80: ```docker service update --publish-rm 80 my_web```.
+* Docker manager nodes store the swarm state and manager logs in the /var/lib/docker/swarm/ directory.
