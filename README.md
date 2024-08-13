@@ -306,3 +306,18 @@ docker logs container_name
 * To rollback a specified service to its previous version from the swarm you can execute one of the following commands: ```docker service rollback [OPTIONS] SERVICE``` or ```docker service update --rollback SERVICE```.
 * Assuming that the my_web service exists, use the following command to remove the published port 80: ```docker service update --publish-rm 80 my_web```.
 * Docker manager nodes store the swarm state and manager logs in the /var/lib/docker/swarm/ directory.
+* Multi-stage builds allow you to drastically reduce the size of your final image, without struggling to reduce the number of intermediate layers and files.
+* When building an image, do not use your root directory, /, as the PATH as it causes the build to transfer the entire contents of your hard drive to the Docker daemon.
+* The build is run by the Docker daemon, not by the CLI.
+* A Docker image consists of read-only layers each of which represents a Dockerfile instruction.
+* ENTRYPOINT should be defined when using the container as an executable.
+* You can use ```docker rmi```to remove an image.
+* You can use an ARG or an ENV instruction to specify variables that are available to the RUN instruction.
+* To show untagged images, or dangling, use: ```docker images --filter "dangling=true"```.
+* Unlike an ARG instruction, ENV values are always persisted in the built image.
+* Don’t confuse RUN with CMD. RUN actually runs a command and commits the result; CMD does not execute anything at build time, but specifies the intended command for the image.
+* FROM can appear multiple times within a single Dockerfile to create multiple images or use one build stage as a dependency for another.
+* If there is more than one filter, then pass multiple flags (e.g. --filter is-automated=true --filter stars=3)
+* To prevent tags from being overwritten, you can configure a repository to be immutable in the DTR web UI. Once configured, DTR will not allow anyone else to push another image tag with the same name.
+* Layering RUN instructions and generating commits conforms to the core concepts of Docker where commits are cheap and containers can be created from any point in an image’s history, much like source control.
+* 
