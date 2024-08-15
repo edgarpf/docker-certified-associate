@@ -317,7 +317,41 @@ docker logs container_name
 * Unlike an ARG instruction, ENV values are always persisted in the built image.
 * Don’t confuse RUN with CMD. RUN actually runs a command and commits the result; CMD does not execute anything at build time, but specifies the intended command for the image.
 * FROM can appear multiple times within a single Dockerfile to create multiple images or use one build stage as a dependency for another.
+* By default, when the Docker daemon terminates, it shuts down running containers. Starting with Docker Engine 1.12, you can configure the daemon so that containers remain running if the daemon becomes unavailable.
 * If there is more than one filter, then pass multiple flags (e.g. --filter is-automated=true --filter stars=3)
 * To prevent tags from being overwritten, you can configure a repository to be immutable in the DTR web UI. Once configured, DTR will not allow anyone else to push another image tag with the same name.
 * Layering RUN instructions and generating commits conforms to the core concepts of Docker where commits are cheap and containers can be created from any point in an image’s history, much like source control.
+* By default, when the Docker daemon terminates, it shuts down running containers. Starting with Docker Engine 1.12, you can configure the daemon so that containers remain running if the daemon becomes unavailable.
+* DTR also exposes several endpoints you can use to assess if a DTR replica is healthy or not:
+  * /health: Checks if the several components of a DTR replica are healthy, and returns a simple json response. This is useful for load balancing or other automated health check tasks.
+  * /load_balancer_status: Checks if the several components of a DTR replica can be reached, and displays that information in a table. This is useful for an administrator to gauge the status of a DTR replica.
+  * /nginx_status: Returns the number of connections being handled by the NGINX front-end used by DTR.
+  * /api/v0/meta/cluster_status: Returns extensive information about all DTR replicas.
+* Docker Engine combines the namespaces, control groups, and UnionFS into a wrapper called a container format. The default container format is libcontainer.
+* Images in DTR content are NOT backed-up.
+* You can use the https://<ucp-manager-url>/_ping endpoint to check the health of a single UCP manager node.
+* Use ```docker system events``` to get real-time events from the server.
+* Docker Engine on Linux also relies on another technology called control groups (cgroups). A cgroup limits an application to a specific set of resources. Control groups allow Docker Engine to share available hardware resources to containers and optionally enforce limits and constraints.
+* Linux namespaces provide isolation for running processes, limiting their access to system resources without the running process being aware of the limitations.
+* Docker Engine uses namespaces such as the following on Linux:
+  * The pid namespace: Process isolation (PID: Process ID).
+  * The net namespace: Managing network interfaces (NET: Networking).
+  * The ipc namespace: Managing access to IPC resources (IPC: InterProcess Communication).
+  * The mnt namespace: Managing filesystem mount points (MNT: Mount).
+  * The uts namespace: Isolating kernel and version identifiers. (UTS: Unix Timesharing System).
+* Docker provides two modes for delivering messages from the container to the log driver:
+  * (default) direct, blocking delivery from container to driver
+  * non-blocking delivery that stores log messages in an intermediate per-container ring buffer for consumption by driver.
+* If you want to use the self-signed certificate that UCP has out of the box, you can set up the SANs when you install UCP with the --san argument. You can also add them after installation.
+* To display system-wide information use: ```docker info [OPTIONS]```.
+* There are two ways to enable debugging. The recommended approach is to set the debug key to true in the daemon.json file. This method works for every Docker platform.
+* You can install DTR on-premises or on a cloud provider. To install DTR, all nodes must:
+  * Be a worker node managed by UCP (Universal Control Plane). DTR replicas are installed one on each UCP worker node.
+  * Have a fixed hostname.
+* There are a number of ways to configure the daemon flags and environment variables for your Docker daemon. The recommended way is to use the platform-independent daemon.json
+* The main reason to use a DTR cache is so that users can pull images from a service that’s geographically closer to them.
+* --default-ulimit allows you to set the default ulimit options to use for all containers. It takes the same options as --ulimit for docker run.
+* --force-new-cluster: This flag forces an existing node that was part of a quorum that was lost to restart as a single node Manager without losing its data.
+* If you don’t want to use a system utility to manage the Docker daemon, or just want to test things out, you can manually run it using the dockerd command.
+* The default logging driver is json-file.
 * 
