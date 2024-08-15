@@ -354,4 +354,29 @@ docker logs container_name
 * --force-new-cluster: This flag forces an existing node that was part of a quorum that was lost to restart as a single node Manager without losing its data.
 * If you don’t want to use a system utility to manage the Docker daemon, or just want to test things out, you can manually run it using the dockerd command.
 * The default logging driver is json-file.
+* Different types and use cases for the built-in network drivers:
+  * User-defined bridge networks are best when you need multiple containers to communicate on the same Docker host.
+  * Host networks are best when the network stack should not be isolated from the Docker host, but you want other aspects of the container to be isolated.
+  * Overlay networks are best when you need containers running on different Docker hosts to communicate, or when multiple applications work together using swarm services.
+  * Macvlan networks are best when you are migrating from a VM setup or need your containers to look like physical hosts on your network, each with a unique MAC address.
+* By default, Docker Swarm uses a default address pool 10.0.0.0/8 for global scope (overlay) networks.
+* To connect a running container to an existing user-defined bridge, use the docker network connect command.
+* When you create a swarm service and do not connect it to a user-defined overlay network, it connects to the ingress network by default.
+* Docker network drivers have a concept of scope. The network scope is the domain of the driver which can be the local or swarm scope.
+* ClusterIP is the default method of exposing the service internally.
+* Linked containers on the default bridge network share environment variables.
+* Docker Universal Control Plane (UCP) uses Calico as the default Kubernetes networking solution.
+* Ingress is one of the types of overlay networks.
+* Services using the routing mesh are running in virtual IP (VIP) mode.
+* UDP port 4789 is used on Docker host to allow overlay network traffic in swarm mode.
+* If you use the host network mode for a container, that container’s network stack is not isolated from the Docker host (the container shares the host’s networking namespace), and the container does not get its own IP-address allocated.
+* The overlay network driver creates a distributed network among multiple Docker daemon hosts.
+* To specify a DNS server for an individual container use: ```docker container create --dns=IP_ADDRESS```. To set the DNS server for all Docker containers, use: ```dockerd --dns IP_ADDRESS```.
+* Different types and use cases for the built-in network drivers:
+  * User-defined bridge networks are best when you need multiple containers to communicate on the same Docker host.
+  * Host networks are best when the network stack should not be isolated from the Docker host, but you want other aspects of the container to be isolated.
+  * Overlay networks are best when you need containers running on different Docker hosts to communicate, or when multiple applications work together using swarm services.
+  * Macvlan networks are best when you are migrating from a VM setup or need your containers to look like physical hosts on your network, each with a unique MAC address.
+  * Third-party network plugins allow you to integrate Docker with specialized network stacks.
+* The routing mesh enables each node in the swarm to accept connections on published ports for any service running in the swarm, even if there’s no task running on the node.
 * 
