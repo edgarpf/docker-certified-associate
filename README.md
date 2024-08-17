@@ -379,4 +379,26 @@ docker logs container_name
   * Macvlan networks are best when you are migrating from a VM setup or need your containers to look like physical hosts on your network, each with a unique MAC address.
   * Third-party network plugins allow you to integrate Docker with specialized network stacks.
 * The routing mesh enables each node in the swarm to accept connections on published ports for any service running in the swarm, even if there’s no task running on the node.
+* In the event that a cluster CA key or a manager node is compromised, you can rotate the swarm root CA so that none of the nodes trust certificates signed by the old root CA anymore.
+* The default roles in UCP are None, View Only, Restricted Control, Scheduler, and Full Control.
+* When you deploy UCP, it starts running a globally scheduled service called ucp-agent.
+* While it’s highly recommended to secure your registry using a TLS certificate issued by a known CA, you can choose to use self-signed certificates, or use your registry over an unencrypted HTTP connection. You can pass the --engine-insecure-registry flag when the docker engine is started.
+* By default, the user inside the container created from this Dockerfile is root.
+* Collections are groupings of objects within UCP. A collection can be made up of one or many of nodes, stacks, containers, services, volumes, networks, secrets, or configs — or it can hold other collections.
+* Seccomp (short for Secure Computing Mode) is a security feature of the Linux kernel, used to restrict the syscalls available to a given process.
+* After you create a secret, you cannot update it. You can only remove and re-create it, and you cannot remove a secret that a service is using.
+* Secrets must be created on a swarm manager node.
+* Docker UCP integrates with LDAP directory services, so that you can manage users and groups from your organization’s directory and it will automatically propagate that information to UCP and DTR.
+* To use the Docker CLI with UCP, download a client certificate bundle(zip) by using the UCP web UI.
+* When you initialize a new swarm, you can use the --autolock flag to enable autolocking of swarm manager nodes when Docker restarts. ```docker swarm init --autolock```.
+* Docker Security Scanning is available as an add-on to Docker Trusted Registry, and an administrator configures it for your DTR instance.
+* Linux capabilities are an even more granular way of reducing surface area. Docker Engine has a default list of capabilities that are kept for newly-created containers, and by using the --cap-drop option for docker run, users can exclude additional capabilities from being used by processes inside the container on a capability-by-capability basis. All privileges can be dropped with the --user option.
+* Universal Control Plane's management plane uses a private CA and certificates for all internal communication. The client certificates are automatically rotated on a schedule, providing a strong method for reducing the effect of a compromised node. There is an option to reduce the default time interval of 90 days to a shorter interval, however shorter intervals do add stress to the UCP cluster.
+* UCP issues different types of certificates depending on the user:
+  * User certificate bundles: only allow running docker commands through a UCP manager node.
+  * Admin user certificate bundles: allow running docker commands on the Docker Engine of any node.
+* Docker Swarm comes with integrated PKI. All managers and nodes in the Swarm have a cryptographically signed identity in the form of a signed certificate. All manager-to-manager and manager-to-node control communication is secured out of the box with TLS.
+* As of Docker Engine 18.06 there is a ```docker trust``` command that will streamline the image signing process.
+* Ucp-agent service automatically starts serving all UCP components in manager node and only proxy service in worker node.
+* If you prefer, you can specify your own externally-generated root CA, using the --external-ca flag of the docker swarm init command.
 * 
